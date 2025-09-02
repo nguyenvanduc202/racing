@@ -6,8 +6,33 @@
     <title>Unity Web Player | HorseRacing_DucNV</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
+    <style>
+      #rotateOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000000cc;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 20px;
+    z-index: 9999;
+    padding: 20px;
+  }
+
+  #rotateOverlay.hidden {
+    display: none;
+  }
+    </style>
   </head>
   <body>
+    <div id="rotateOverlay">
+    Please rotate your device to landscape mode to play the game
+  </div>
     <div id="unity-container" class="unity-desktop">
       <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
       <div id="unity-loading-bar">
@@ -123,5 +148,25 @@
       document.body.appendChild(script);
 
     </script>
+    <script>
+    const overlay = document.getElementById("rotateOverlay");
+
+    function checkOrientation() {
+      if (window.innerWidth < window.innerHeight) {
+        // Portrait -> show overlay
+        overlay.classList.remove("hidden");
+      } else {
+        // Landscape -> hide overlay
+        overlay.classList.add("hidden");
+      }
+    }
+
+    // Check on load
+    checkOrientation();
+
+    // Listen for orientation / resize events
+    window.addEventListener("resize", checkOrientation);
+    window.addEventListener("orientationchange", checkOrientation);
+  </script>
   </body>
 </html>
